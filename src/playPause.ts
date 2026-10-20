@@ -1,4 +1,6 @@
-import { playEl, mediaEl } from "./elements.js";
+import { playEl, mediaEl, rwdEl, fwdEl } from "./elements.js";
+import { intervalFwd, intervalRwd } from "./wind.js";
+import { stopWind } from "./helpers.js";
 
 export function playPauseMedia() {
   if (mediaEl.paused) {
@@ -8,10 +10,8 @@ export function playPauseMedia() {
     playEl.setAttribute("data-icon", "P");
     mediaEl.pause();
   }
+
+  stopWind(rwdEl, intervalRwd);
+  stopWind(fwdEl, intervalFwd);
 }
 
-export function stopMedia() {
-  mediaEl.pause();
-  mediaEl.currentTime = 0;
-  playEl.setAttribute("data-icon", "P");
-}

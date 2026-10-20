@@ -1,14 +1,15 @@
 import { mediaEl, playEl, rwdEl, fwdEl, DURATION } from "./fixture.js";
 import { intervalRwd, intervalFwd, mediaBackward, mediaForward } from "../src/wind.js";
-import * as playPause from "../src/playPause.js";
+import * as stopMedia from "../src/stopMedia.js";
+import { playPauseMedia } from "../src/playPause.js";
 
 
 vi.mock("../src/elements.js", () => ({ mediaEl, rwdEl, fwdEl, playEl }));
-const stopMediaSpy = vi.spyOn(playPause, "stopMedia");
-
+const stopMediaSpy = vi.spyOn(stopMedia, "stopMedia");
 
 rwdEl.addEventListener('click', mediaBackward);
 fwdEl.addEventListener('click', mediaForward);
+playEl.addEventListener('click', playPauseMedia)
 
 vi.useFakeTimers();
 
@@ -30,7 +31,13 @@ test("Rewind", () => {
   expect(mediaEl.paused).toBe(false);
   expect(rwdEl.classList.contains("active")).toBe(false);
 
+  rwdEl.dispatchEvent(new Event('click'));
+  playEl.dispatchEvent(new Event('click')); // stop by hitting 'Play' button
   
+  expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
+  expect(mediaEl.paused).toBe(false);
+  expect(rwdEl.classList.contains("active")).toBe(false);
+   
   // rewind to beginning
   mediaEl.currentTime = DURATION;
   rwdEl.dispatchEvent(new Event('click'));
@@ -54,6 +61,13 @@ test("Fast forward", () => {
   fwdEl.dispatchEvent(new Event('click')); // stop fast-forwarding
   
   expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
+  expect(mediaEl.paused).toBe(false);
+  expect(fwdEl.classList.contains("active")).toBe(false);
+
+  fwdEl.dispatchEvent(new Event('click'));
+  playEl.dispatchEvent(new Event('click')); // stop by hitting 'Play' button
+  
+  //expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
   expect(mediaEl.paused).toBe(false);
   expect(fwdEl.classList.contains("active")).toBe(false);
 

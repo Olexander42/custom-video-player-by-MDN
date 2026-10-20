@@ -1,20 +1,19 @@
 import { mediaEl, fwdEl, rwdEl } from "./elements.js";
-import { stopMedia } from "./playPause.js";
+import { stopMedia } from "./stopMedia.js";
+import { stopWind } from "./helpers.js";
 
 
-const TIME_GAP = 500;
+const TIME_GAP = 100;
 const CURRENT_TIME_STEP = 1;
 
-let intervalRwd: number | undefined;
-let intervalFwd: number | undefined;
+export let intervalRwd: number | undefined;
+export let intervalFwd: number | undefined;
 
 export function mediaBackward() {
-  clearInterval(intervalFwd)
-  fwdEl.classList.remove("active");
+  stopWind(fwdEl, intervalFwd);
 
   if (rwdEl.classList.contains("active")) {
-    rwdEl.classList.remove("active");
-    clearInterval(intervalRwd);    
+    stopWind(rwdEl, intervalRwd);    
     mediaEl.play();
   } else {
     rwdEl.classList.add("active");
@@ -24,12 +23,10 @@ export function mediaBackward() {
 }
 
 export function mediaForward() {
-  clearInterval(intervalRwd)
-  rwdEl.classList.remove("active");
+  stopWind(rwdEl, intervalRwd);
 
   if (fwdEl.classList.contains("active")) {
-    fwdEl.classList.remove("active");
-    clearInterval(intervalFwd);
+    stopWind(fwdEl, intervalFwd)
     mediaEl.play();
   } else {
     fwdEl.classList.add("active");
@@ -40,8 +37,7 @@ export function mediaForward() {
 
 function windBackward() {
   if (mediaEl.currentTime < CURRENT_TIME_STEP) {
-    rwdEl.classList.remove("active");
-    clearInterval(intervalRwd);
+    stopWind(rwdEl, intervalRwd);
     stopMedia();
   } else {
     mediaEl.currentTime -= CURRENT_TIME_STEP;
@@ -50,14 +46,13 @@ function windBackward() {
 
 function windForward() {
   if (mediaEl.currentTime > mediaEl.duration - CURRENT_TIME_STEP) {
-    fwdEl.classList.remove("active");
-    clearInterval(intervalFwd);
+    stopWind(fwdEl, intervalFwd)
     stopMedia();
   } else {
     mediaEl.currentTime += CURRENT_TIME_STEP;
   }
 }
 
-export { intervalRwd, intervalFwd }
+
 
 

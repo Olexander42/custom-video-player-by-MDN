@@ -1,5 +1,6 @@
 import { playEl, mediaEl, controlsEl, stopEl, rwdEl, fwdEl } from "./src/elements.js";
-import { playPauseMedia, stopMedia } from "./src/playPause.js";
+import { playPauseMedia } from "./src/playPause.js";
+import { stopMedia } from "./src/stopMedia.js";
 import { setTimerNumbers, setTimerWidth } from "./src/timerDisplay.js";
 import { mediaBackward, mediaForward } from "./src/wind.js";
 

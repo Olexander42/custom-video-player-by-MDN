@@ -1,8 +1,9 @@
-import { playEl, mediaEl, stopEl, DURATION } from "./fixture.js";
-import { playPauseMedia, stopMedia } from "../src/playPause.js";
+import { playEl, mediaEl, stopEl, rwdEl, fwdEl, DURATION } from "./fixture.js";
+import { playPauseMedia } from "../src/playPause.js";
+import { stopMedia } from "../src/stopMedia.js";
 
 
-vi.mock("../src/elements.js", () => ({ playEl, mediaEl }));
+vi.mock("../src/elements.js", () => ({ playEl, mediaEl, rwdEl, fwdEl }));
 
 suite("Play/Pause Button", () => {
   playEl.addEventListener('click', playPauseMedia);
