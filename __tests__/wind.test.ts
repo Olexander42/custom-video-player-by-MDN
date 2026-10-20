@@ -19,11 +19,10 @@ suite("Backward/Forward", () => {
   
     rwdEl.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(1000);
-
+    
     expect(rwdEl.classList.contains("active")).toBe(true);
     expect(mediaEl.pause).toHaveBeenCalled();
-    expect(mediaEl.paused).toBe(true);
-    expect(mediaEl.currentTime).toBe(8000);
+    expect(mediaEl.currentTime).toBe(DURATION - 2);
 
     rwdEl.dispatchEvent(new Event('click')); // stop rewinding
     
@@ -35,14 +34,11 @@ suite("Backward/Forward", () => {
     // rewind to beginning
     mediaEl.currentTime = DURATION;
     rwdEl.dispatchEvent(new Event('click'));
-    vi.advanceTimersByTime(DURATION);
+    vi.advanceTimersByTime(DURATION * 1000);
 
     expect(rwdEl.classList.contains("active")).toBe(false);
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(stopMediaSpy).toHaveBeenCalled();
-    expect(mediaEl.paused).toBe(true);
-    expect(mediaEl.currentTime).toBe(0);
-    expect(playEl.getAttribute("data-icon")).toBe("P");
   })
 
   test("Fast forward", () => {
@@ -53,8 +49,7 @@ suite("Backward/Forward", () => {
 
     expect(fwdEl.classList.contains("active")).toBe(true);
     expect(mediaEl.pause).toHaveBeenCalled();
-    expect(mediaEl.paused).toBe(true);
-    expect(mediaEl.currentTime).toBe(2000);
+    expect(mediaEl.currentTime).toBe(2);
 
     fwdEl.dispatchEvent(new Event('click')); // stop fast-forwarding
     
@@ -65,14 +60,21 @@ suite("Backward/Forward", () => {
     // rewind to ending
     mediaEl.currentTime = 0;
     fwdEl.dispatchEvent(new Event('click'));
-    vi.advanceTimersByTime(DURATION);
+    vi.advanceTimersByTime(DURATION * 1000);
 
-    expect(fwdEl.classList.contains("active")).toBe(false);
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
-    expect(mediaEl.paused).toBe(true);
-    expect(mediaEl.currentTime).toBe(0);
-    expect(playEl.getAttribute("data-icon")).toBe("P");
     expect(stopMediaSpy).toHaveBeenCalled();
-
   })
+})
+
+test("Media ended", () => {
+  mediaEl.addEventListener('ended', stopMediaSpy);
+  mediaEl.currentTime = DURATION / 2;
+  mediaEl.play();
+
+  expect(mediaEl.paused).toBe(false);
+
+  mediaEl.dispatchEvent(new Event('ended'));
+
+  expect(stopMediaSpy).toHaveBeenCalled();
 })

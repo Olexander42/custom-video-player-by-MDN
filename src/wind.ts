@@ -3,7 +3,7 @@ import { stopMedia } from "./playPause.js";
 
 
 const TIME_GAP = 500;
-const TIME_STEP = 1000;
+const CURRENT_TIME_STEP = 1;
 
 let intervalRwd: number | undefined;
 let intervalFwd: number | undefined;
@@ -39,22 +39,22 @@ export function mediaForward() {
 }
 
 function windBackward() {
-  if (mediaEl.currentTime < TIME_GAP) {
+  if (mediaEl.currentTime < CURRENT_TIME_STEP) {
     rwdEl.classList.remove("active");
     clearInterval(intervalRwd);
     stopMedia();
   } else {
-    mediaEl.currentTime -= TIME_STEP;
+    mediaEl.currentTime -= CURRENT_TIME_STEP;
   }
 }
 
 function windForward() {
-  if (mediaEl.currentTime > mediaEl.duration - TIME_GAP) {
+  if (mediaEl.currentTime > mediaEl.duration - CURRENT_TIME_STEP) {
     fwdEl.classList.remove("active");
     clearInterval(intervalFwd);
     stopMedia();
   } else {
-    mediaEl.currentTime += TIME_STEP;
+    mediaEl.currentTime += CURRENT_TIME_STEP;
   }
 }
 
