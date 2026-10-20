@@ -1,5 +1,5 @@
 import { playEl, mediaEl, rwdEl, fwdEl } from "./elements.js";
-import { intervalFwd, intervalRwd } from "./wind.js";
+import { intervalFwd, intervalRwd } from "./intervals.js";
 import { stopWind } from "./helpers.js";
 
 export function playPauseMedia() {

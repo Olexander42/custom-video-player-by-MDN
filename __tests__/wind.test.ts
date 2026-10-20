@@ -1,5 +1,6 @@
 import { mediaEl, playEl, rwdEl, fwdEl, DURATION } from "./fixture.js";
-import { intervalRwd, intervalFwd, mediaBackward, mediaForward } from "../src/wind.js";
+import { intervalRwd, intervalFwd } from "../src/intervals.js";
+import { mediaBackward, mediaForward } from "../src/wind.js";
 import * as stopMedia from "../src/stopMedia.js";
 import { playPauseMedia } from "../src/playPause.js";
 

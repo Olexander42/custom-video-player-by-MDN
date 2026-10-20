@@ -1,13 +1,11 @@
 import { mediaEl, fwdEl, rwdEl } from "./elements.js";
-import { stopMedia } from "./stopMedia.js";
+import { intervalRwd, intervalFwd, setIntervalRwd, setIntervalFwd } from "./intervals.js";
 import { stopWind } from "./helpers.js";
+import { stopMedia } from "./stopMedia.js";
 
 
-const TIME_GAP = 100;
+const TIME_GAP = 500;
 const CURRENT_TIME_STEP = 1;
-
-export let intervalRwd: number | undefined;
-export let intervalFwd: number | undefined;
 
 export function mediaBackward() {
   stopWind(fwdEl, intervalFwd);
@@ -18,7 +16,7 @@ export function mediaBackward() {
   } else {
     rwdEl.classList.add("active");
     mediaEl.pause();
-    intervalRwd = setInterval(windBackward, TIME_GAP);
+    setIntervalRwd(setInterval(windBackward, TIME_GAP));
   }
 }
 
@@ -31,7 +29,7 @@ export function mediaForward() {
   } else {
     fwdEl.classList.add("active");
     mediaEl.pause();
-    intervalFwd = setInterval(windForward, TIME_GAP);
+    setIntervalFwd(setInterval(windForward, TIME_GAP));
   }
 }
 
