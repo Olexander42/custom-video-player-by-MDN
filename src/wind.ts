@@ -4,7 +4,7 @@ import { stopWind } from "./helpers.js";
 import { stopMedia } from "./stopMedia.js";
 
 
-const TIME_GAP = 500;
+const TIME_GAP = 100;
 const CURRENT_TIME_STEP = 1;
 
 export function mediaBackward() {

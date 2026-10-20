@@ -20,7 +20,7 @@ test("Rewind", () => {
   mediaEl.currentTime = DURATION;
 
   rwdEl.dispatchEvent(new Event('click'));
-  vi.advanceTimersByTime(1000);
+  vi.advanceTimersByTime(200);
   
   expect(rwdEl.classList.contains("active")).toBe(true);
   expect(mediaEl.pause).toHaveBeenCalled();
@@ -57,7 +57,7 @@ test("Fast forward", () => {
 
   expect(fwdEl.classList.contains("active")).toBe(true);
   expect(mediaEl.pause).toHaveBeenCalled();
-  expect(mediaEl.currentTime).toBe(2);
+  expect(mediaEl.currentTime).toBe(10);
 
   fwdEl.dispatchEvent(new Event('click')); // stop fast-forwarding
   
@@ -68,7 +68,7 @@ test("Fast forward", () => {
   fwdEl.dispatchEvent(new Event('click'));
   playEl.dispatchEvent(new Event('click')); // stop by hitting 'Play' button
   
-  //expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
+  expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
   expect(mediaEl.paused).toBe(false);
   expect(fwdEl.classList.contains("active")).toBe(false);
 
