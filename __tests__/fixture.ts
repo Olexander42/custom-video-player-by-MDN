@@ -26,8 +26,8 @@ export const rwdEl = document.createElement('button');
 export const fwdEl = document.createElement('button');
 
 export const timerWrapperEl = document.createElement('div');
-Object.defineProperty(timerWrapperEl, 'clientWidth', () => {
-  value: 100
+Object.defineProperty(timerWrapperEl, 'clientWidth', {
+  value: DURATION
 })
 
 export const timerEl = document.createElement('div');
