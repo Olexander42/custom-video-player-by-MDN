@@ -1,22 +1,27 @@
-import { mediaEl } from "./elements.js";
+import { mediaEl, timerWrapperEl, timerSeekerEl } from "./elements.js";
 
 
-export function jump(event: MouseEvent) {
-  const relativePosition = seeker(event)
-
-  mediaEl.currentTime = Math.round(mediaEl.duration * relativePosition);
-}
-
-export function seeker(event: MouseEvent): number {
-  const timescale = event.currentTarget as HTMLElement;
-  const timescaleWidth = timescale.clientWidth;
-
-  const x = event.offsetX;
+export function jump(event: MouseEvent) {  
+  const rect = timerWrapperEl.getBoundingClientRect();
   
-  const relativePosition = Number((x / timescaleWidth).toFixed(2));
+  const offsetX = rect.left;
+  const x = Math.round(event.clientX - offsetX); 
 
-  return relativePosition
+  switch (event.type) {
+    case 'mousemove': 
+      timerSeekerEl.style.width = `${x}px`;
+      break;
+    
+    case 'mouseup': 
+      const timescale = event.currentTarget as HTMLElement;
+      const timescaleWidth = timescale.clientWidth;
+      
+      const relativePosition = Number((x / timescaleWidth).toFixed(2));
+
+      mediaEl.currentTime = Math.round(mediaEl.duration * relativePosition);
+  }
 }
+
 
 
 

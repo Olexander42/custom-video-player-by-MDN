@@ -3,7 +3,7 @@ import { playPauseMedia } from "./src/playPause.js";
 import { stopMedia } from "./src/stopMedia.js";
 import { setTimerNumbers, setTimerWidth } from "./src/timerDisplay.js";
 import { mediaBackward, mediaForward } from "./src/wind.js";
-import { jump, seeker } from "./src/mouseScroll.js";
+import { jump } from "./src/mouseScroll.js";
 
 
 mediaEl.removeAttribute("controls")
@@ -19,6 +19,6 @@ mediaEl.addEventListener('timeupdate', setTimerWidth);
 rwdBtn.addEventListener('click', mediaBackward);
 fwdBtn.addEventListener('click', mediaForward);
 
-timerWrapperEl.addEventListener('mousemove', seeker);
+timerWrapperEl.addEventListener('mousemove', jump);
 timerWrapperEl.addEventListener('mouseup', jump);
 

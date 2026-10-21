@@ -31,7 +31,12 @@ Object.defineProperty(timerWrapperEl, 'clientWidth', {
   value: DURATION
 })
 
+Object.defineProperty(timerWrapperEl, 'getBoundingClientRect', {
+  value: () => ({ left: 100, x: 100 })
+})
+
 export const timerEl = document.createElement('div');
 export const timerBarEl = document.createElement('div');
+export const timerSeekerEl = document.createElement('div');
 
 

@@ -1,3 +1,8 @@
+:root {
+  --timer-height: 38px;
+}
+
+
 @font-face {
   font-family: "HeydingsControlsRegular";
   src: url("https://mdn.github.io/learning-area/javascript/apis/video-audio/finished/fonts/heydings_controls-webfont.woff")
@@ -81,23 +86,32 @@ button {
 }
 
 .timer {
-  line-height: 38px;
+  line-height: var(--timer-height);
   font-size: 10px;
   font-family: monospace;
   text-shadow: 1px 1px 0px black;
   color: white;
   flex: 5;
   position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-.timer div {
+#progress,
+#seeker {
   position: absolute;
   background-color: rgb(255 255 255 / 20%);
   left: 0;
   top: 0;
   width: 0;
-  height: 38px;
+  height: var(--timer-height);
   z-index: 2;
+}
+
+#seeker {
+  background-color: rgb(255 255 255 / 10%);
 }
 
 .timer span {
