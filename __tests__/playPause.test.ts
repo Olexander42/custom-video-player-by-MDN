@@ -1,11 +1,11 @@
-import { playEl, mediaEl, rwdEl, fwdEl } from "./fixture.js";
+import { playBtn, mediaEl, rwdBtn, fwdBtn } from "./fixture.js";
 import { playPauseMedia } from "../src/playPause.js";
 
 
-vi.mock("../src/elements.js", () => ({ playEl, mediaEl, rwdEl, fwdEl }));
+vi.mock("../src/elements.js", () => ({ playBtn, mediaEl, rwdBtn, fwdBtn }));
 
 suite("Play/Pause Button", () => {
-  playEl.addEventListener('click', playPauseMedia);
+  playBtn.addEventListener('click', playPauseMedia);
 
   test("Play successfully", () => {
     Object.defineProperty(mediaEl, "paused", {
@@ -13,10 +13,10 @@ suite("Play/Pause Button", () => {
       configurable: true
     });
 
-    playEl.dispatchEvent(new Event('click'));
+    playBtn.dispatchEvent(new Event('click'));
 
     expect(mediaEl.paused).toBe(false);
-    expect(playEl.getAttribute("data-icon")).toBe("u");
+    expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
   test("Pause successfully", () => {
@@ -25,9 +25,9 @@ suite("Play/Pause Button", () => {
       configurable: true
     });
 
-    playEl.dispatchEvent(new Event('click'));
+    playBtn.dispatchEvent(new Event('click'));
 
     expect(mediaEl.paused).toBe(true);
-    expect(playEl.getAttribute("data-icon")).toBe("P");
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 })

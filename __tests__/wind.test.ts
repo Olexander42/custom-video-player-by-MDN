@@ -1,18 +1,18 @@
-import { mediaEl, playEl, stopEl, rwdEl, fwdEl, DURATION } from "./fixture.js";
+import { mediaEl, playBtn, stopBtn, rwdBtn, fwdBtn, DURATION } from "./fixture.js";
 import { intervalRwd, intervalFwd } from "../src/intervals.js";
 import { mediaBackward, mediaForward } from "../src/wind.js";
 import * as stopMedia from "../src/stopMedia.js";
 import { playPauseMedia } from "../src/playPause.js";
 
 
-vi.mock("../src/elements.js", () => ({ mediaEl, rwdEl, fwdEl, playEl }));
+vi.mock("../src/elements.js", () => ({ mediaEl, rwdBtn, fwdBtn, playBtn }));
 
 const stopMediaSpy = vi.spyOn(stopMedia, "stopMedia");
 
-rwdEl.addEventListener('click', mediaBackward);
-fwdEl.addEventListener('click', mediaForward);
-playEl.addEventListener('click', playPauseMedia)
-stopEl.addEventListener('click', stopMediaSpy)
+rwdBtn.addEventListener('click', mediaBackward);
+fwdBtn.addEventListener('click', mediaForward);
+playBtn.addEventListener('click', playPauseMedia)
+stopBtn.addEventListener('click', stopMediaSpy)
 
 vi.useFakeTimers();
 
@@ -22,45 +22,48 @@ suite("Rewind", () => {
   test("Stop with 'rewind' button", () => {
     mediaEl.currentTime = DURATION;
 
-    rwdEl.dispatchEvent(new Event('click'));
+    rwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(200);
     
-    expect(rwdEl.classList.contains("active")).toBe(true);
+    expect(rwdBtn.classList.contains("active")).toBe(true);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
     expect(mediaEl.pause).toHaveBeenCalled();
     expect(mediaEl.currentTime).toBe(DURATION - 2);
 
-    rwdEl.dispatchEvent(new Event('click')); 
+    rwdBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(mediaEl.paused).toBe(false);
-    expect(rwdEl.classList.contains("active")).toBe(false);
+    expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
   test("Stop with 'Play' button", () => {
-    rwdEl.dispatchEvent(new Event('click'));
-    playEl.dispatchEvent(new Event('click')); 
+    rwdBtn.dispatchEvent(new Event('click'));
+    playBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(mediaEl.paused).toBe(false);
-    expect(rwdEl.classList.contains("active")).toBe(false);
+    expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
   test("Stop with 'Stop' button", () => {
-    rwdEl.dispatchEvent(new Event('click'));
-    stopEl.dispatchEvent(new Event('click')); 
+    rwdBtn.dispatchEvent(new Event('click'));
+    stopBtn.dispatchEvent(new Event('click')); 
 
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(mediaEl.paused).toBe(true);
-    expect(rwdEl.classList.contains("active")).toBe(false);
-    expect(playEl.getAttribute("data-icon")).toBe("P");
+    expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 
   test("Rewind to beginning", () => {
     mediaEl.currentTime = DURATION;
-    rwdEl.dispatchEvent(new Event('click'));
+    rwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(DURATION * 1000);
 
-    expect(rwdEl.classList.contains("active")).toBe(false);
+    expect(rwdBtn.classList.contains("active")).toBe(false);
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(stopMediaSpy).toHaveBeenCalled();
   })
@@ -70,46 +73,50 @@ suite("Fast forward", () => {
   test("Stop with 'fast-forward' button", () => {
     mediaEl.currentTime = 0;
 
-    fwdEl.dispatchEvent(new Event('click'));
+    fwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(1000);
 
-    expect(fwdEl.classList.contains("active")).toBe(true);
+    expect(fwdBtn.classList.contains("active")).toBe(true);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
     expect(mediaEl.pause).toHaveBeenCalled();
     expect(mediaEl.currentTime).toBe(10);
 
-    fwdEl.dispatchEvent(new Event('click')); 
+    fwdBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
     expect(mediaEl.paused).toBe(false);
-    expect(fwdEl.classList.contains("active")).toBe(false);
+    expect(fwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
   test("Stop with 'Play' button", () => {
-    fwdEl.dispatchEvent(new Event('click'));
-    playEl.dispatchEvent(new Event('click')); 
+    fwdBtn.dispatchEvent(new Event('click'));
+    playBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
     expect(mediaEl.paused).toBe(false);
-    expect(fwdEl.classList.contains("active")).toBe(false);
+    expect(fwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
   test("Stop with 'Stop' button", () => {
-    fwdEl.dispatchEvent(new Event('click'));
-    stopEl.dispatchEvent(new Event('click')); 
+    fwdBtn.dispatchEvent(new Event('click'));
+    stopBtn.dispatchEvent(new Event('click')); 
 
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
     expect(mediaEl.paused).toBe(true);
-    expect(rwdEl.classList.contains("active")).toBe(false);
-    expect(playEl.getAttribute("data-icon")).toBe("P");
+    expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 
   test("Rewind to ending", () => {
     mediaEl.currentTime = 0;
-    fwdEl.dispatchEvent(new Event('click'));
+    fwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(DURATION * 1000);
 
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
     expect(stopMediaSpy).toHaveBeenCalled();
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 })
 
@@ -123,4 +130,5 @@ test("Media ended", () => {
   mediaEl.dispatchEvent(new Event('ended'));
 
   expect(stopMediaSpy).toHaveBeenCalled();
+  expect(playBtn.getAttribute("data-icon")).toBe("P");
 })

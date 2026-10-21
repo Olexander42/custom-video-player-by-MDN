@@ -16,14 +16,15 @@ mediaEl.pause = vi.fn().mockImplementation(() => {
 
 export const DURATION = 100;
 Object.defineProperty(mediaEl, 'duration', {
-  value: DURATION
+  value: DURATION,
+  configurable: true
 })
 
-export const playEl = document.createElement('button');
-export const stopEl = document.createElement('button');
+export const playBtn = document.createElement('button');
+export const stopBtn = document.createElement('button');
 
-export const rwdEl = document.createElement('button');
-export const fwdEl = document.createElement('button');
+export const rwdBtn = document.createElement('button');
+export const fwdBtn = document.createElement('button');
 
 export const timerWrapperEl = document.createElement('div');
 Object.defineProperty(timerWrapperEl, 'clientWidth', {
