@@ -27,5 +27,5 @@ export function setTimerNumbers() {
 export function setTimerWidth() {  
   const timerWidth = timerWrapperEl.clientWidth * (mediaEl.currentTime / mediaEl.duration);
     
-  timerBarEl.style.width = `${timerWidth}px`;
+  timerBarEl.style.width = `${Math.round(timerWidth)}px`;
 }

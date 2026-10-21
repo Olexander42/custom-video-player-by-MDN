@@ -6,6 +6,12 @@ vi.mock("../src/elements.ts", () => ({ timerWrapperEl, timerBarEl, timerEl, medi
 
 
 suite("Timer Numbers", () => {
+  afterAll(() => {
+    Object.defineProperty(mediaEl, 'duration', {
+      value: DURATION
+    })
+  })
+
   test("Seconds long video", () => {
     Object.defineProperty(mediaEl, 'duration', {
       value: 10
@@ -45,10 +51,9 @@ suite("Timer Numbers", () => {
 
 
 test("Timer Width", () => {
-  const DIVIDER = 3
-  mediaEl.currentTime = DURATION / DIVIDER;  
+  mediaEl.currentTime = mediaEl.duration / 3;  
 
   setTimerWidth();
-  
-  expect(parseFloat(timerBarEl.style.width)).toBe(timerWrapperEl.clientWidth / DIVIDER);
+
+  expect(parseInt(timerBarEl.style.width)).toBe(33);
 })
