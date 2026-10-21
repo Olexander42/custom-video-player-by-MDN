@@ -16,12 +16,12 @@ stopBtn.addEventListener('click', stopMediaSpy)
 
 vi.useFakeTimers();
 
-const intervalSpy = vi.spyOn(globalThis, "clearInterval");
+const intervalSpy = vi.spyOn(globalThis, "clearInterval"); // This initialization HAS TO come after `useFakeTimers`!
 
 suite("Rewind", () => {
-  test("Stop with 'rewind' button", () => {
+  test("Stop with 'rewind' button in 'paused' state", () => {
     mediaEl.currentTime = DURATION;
-
+ 
     rwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(200);
     
@@ -33,8 +33,23 @@ suite("Rewind", () => {
     rwdBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
-    expect(mediaEl.paused).toBe(false);
     expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(mediaEl.paused).toBe(true);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
+  })
+
+  test("Stop with 'rewind' button in 'active' state", () => {
+    mediaEl.currentTime = DURATION;
+    
+    playBtn.dispatchEvent(new Event('click'));
+    rwdBtn.dispatchEvent(new Event('click'));
+    vi.advanceTimersByTime(200);
+
+    rwdBtn.dispatchEvent(new Event('click')); 
+    
+    expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
+    expect(rwdBtn.classList.contains("active")).toBe(false);
+    expect(mediaEl.paused).toBe(false);
     expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
@@ -66,11 +81,13 @@ suite("Rewind", () => {
     expect(rwdBtn.classList.contains("active")).toBe(false);
     expect(intervalSpy).toHaveBeenCalledWith(intervalRwd);
     expect(stopMediaSpy).toHaveBeenCalled();
+    expect(playBtn.getAttribute("data-state")).toBe("paused");
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 })
 
 suite("Fast forward", () => {
-  test("Stop with 'fast-forward' button", () => {
+  test("Stop with 'fast-forward' button in 'paused' state", () => {
     mediaEl.currentTime = 0;
 
     fwdBtn.dispatchEvent(new Event('click'));
@@ -84,8 +101,23 @@ suite("Fast forward", () => {
     fwdBtn.dispatchEvent(new Event('click')); 
     
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
-    expect(mediaEl.paused).toBe(false);
     expect(fwdBtn.classList.contains("active")).toBe(false);
+    expect(mediaEl.paused).toBe(true);
+    expect(playBtn.getAttribute("data-icon")).toBe("P");
+  })
+
+  test("Stop with 'fast-forward' button in 'active' state", () => {
+    mediaEl.currentTime = 0;
+    
+    playBtn.dispatchEvent(new Event('click'));
+    fwdBtn.dispatchEvent(new Event('click'));
+    vi.advanceTimersByTime(200);
+
+    fwdBtn.dispatchEvent(new Event('click')); 
+    
+    expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
+    expect(fwdBtn.classList.contains("active")).toBe(false);
+    expect(mediaEl.paused).toBe(false);
     expect(playBtn.getAttribute("data-icon")).toBe("u");
   })
 
@@ -114,8 +146,10 @@ suite("Fast forward", () => {
     fwdBtn.dispatchEvent(new Event('click'));
     vi.advanceTimersByTime(DURATION * 1000);
 
+    expect(fwdBtn.classList.contains("active")).toBe(false);
     expect(intervalSpy).toHaveBeenCalledWith(intervalFwd);
     expect(stopMediaSpy).toHaveBeenCalled();
+    expect(playBtn.getAttribute("data-state")).toBe("paused");
     expect(playBtn.getAttribute("data-icon")).toBe("P");
   })
 })

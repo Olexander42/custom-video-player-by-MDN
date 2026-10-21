@@ -1,4 +1,4 @@
-import { mediaEl, fwdEl, rwdEl } from "./elements.js";
+import { mediaEl, fwdBtn, rwdBtn, playBtn } from "./elements.js";
 import { intervalRwd, intervalFwd, setIntervalRwd, setIntervalFwd } from "./intervals.js";
 import { stopWind } from "./helpers.js";
 import { stopMedia } from "./stopMedia.js";
@@ -8,26 +8,44 @@ const TIME_GAP = 100;
 const CURRENT_TIME_STEP = 1;
 
 export function mediaBackward() {
-  stopWind(fwdEl, intervalFwd);
+  stopWind(fwdBtn, intervalFwd);
 
-  if (rwdEl.classList.contains("active")) {
-    stopWind(rwdEl, intervalRwd);    
-    mediaEl.play();
+  /* If the button has been already active, stop rewinding
+  and return to the previous state. */
+  if (rwdBtn.classList.contains("active")) {
+    stopWind(rwdBtn, intervalRwd);
+
+    if (playBtn.getAttribute("data-state") === "playing") {
+      playBtn.setAttribute("data-icon", "u");
+      mediaEl.play();
+    }
+
   } else {
-    rwdEl.classList.add("active");
+    rwdBtn.classList.add("active");
+    playBtn.setAttribute("data-icon", "P");
     mediaEl.pause();
     setIntervalRwd(setInterval(windBackward, TIME_GAP));
   }
 }
 
 export function mediaForward() {
-  stopWind(rwdEl, intervalRwd);
+  stopWind(rwdBtn, intervalRwd);
 
-  if (fwdEl.classList.contains("active")) {
-    stopWind(fwdEl, intervalFwd)
-    mediaEl.play();
+  if (fwdBtn.classList.contains("active")) {
+    console.log("I'm here");
+    
+    stopWind(fwdBtn, intervalFwd)
+
+    /* If the button has been already active, stop fast-forwarding
+    and return to the previous state. */
+    if (playBtn.getAttribute("data-state") === "playing") {
+      playBtn.setAttribute("data-icon", "u");
+      mediaEl.play();
+    }
+
   } else {
-    fwdEl.classList.add("active");
+    fwdBtn.classList.add("active");
+    playBtn.setAttribute("data-icon", "P")
     mediaEl.pause();
     setIntervalFwd(setInterval(windForward, TIME_GAP));
   }
@@ -35,7 +53,7 @@ export function mediaForward() {
 
 function windBackward() {
   if (mediaEl.currentTime < CURRENT_TIME_STEP) {
-    stopWind(rwdEl, intervalRwd);
+    stopWind(rwdBtn, intervalRwd);
     stopMedia();
   } else {
     mediaEl.currentTime -= CURRENT_TIME_STEP;
@@ -44,7 +62,7 @@ function windBackward() {
 
 function windForward() {
   if (mediaEl.currentTime > mediaEl.duration - CURRENT_TIME_STEP) {
-    stopWind(fwdEl, intervalFwd)
+    stopWind(fwdBtn, intervalFwd)
     stopMedia();
   } else {
     mediaEl.currentTime += CURRENT_TIME_STEP;
