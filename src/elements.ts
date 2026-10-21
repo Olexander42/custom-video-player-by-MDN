@@ -8,4 +8,5 @@ export const fwdBtn = document.querySelector(".fwd")! as HTMLElement;
 
 export const timerWrapperEl = document.querySelector(".timer") as HTMLElement;
 export const timerEl = document.querySelector(".timer span")  as HTMLElement;
-export const timerBarEl = document.querySelector(".timer div") as HTMLElement;
+export const timerBarEl = document.getElementById("progress") as HTMLElement;
+export const timerSeekerEl = document.getElementById("seeker") as HTMLElement;
