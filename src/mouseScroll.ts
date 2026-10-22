@@ -11,6 +11,10 @@ export function jump(event: MouseEvent) {
     case 'mousemove': 
       timerSeekerEl.style.width = `${x}px`;
       break;
+
+    case 'mouseleave':
+      timerSeekerEl.style.width = `0px`;
+      break;
     
     case 'mouseup': 
       const timescale = event.currentTarget as HTMLElement;

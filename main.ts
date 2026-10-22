@@ -21,4 +21,6 @@ fwdBtn.addEventListener('click', mediaForward);
 
 timerWrapperEl.addEventListener('mousemove', jump);
 timerWrapperEl.addEventListener('mouseup', jump);
+timerWrapperEl.addEventListener('mouseleave', jump)
+
 

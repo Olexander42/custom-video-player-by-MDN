@@ -5,6 +5,7 @@ vi.mock("../src/elements.js", () => ({ mediaEl, timerSeekerEl, timerWrapperEl })
 
 timerWrapperEl.addEventListener('mousemove', jump);
 timerWrapperEl.addEventListener('mouseup', jump);
+timerWrapperEl.addEventListener('mouseleave', jump)
 
 const DIVIDER = 3;
 const timerWrapperLeft = timerWrapperEl.getBoundingClientRect().left;
@@ -19,8 +20,10 @@ test("Seeker", () => {
   })
 
   timerWrapperEl.dispatchEvent(mouseHover);
+  expect(parseInt(timerSeekerEl.style.width)).toBe(Math.round(mouseX - timerWrapperLeft));
 
-  expect(parseInt(timerSeekerEl.style.width)).toBe(Math.round(mouseX - timerWrapperLeft))
+  timerWrapperEl.dispatchEvent(new Event('mouseleave'));
+  expect(parseInt(timerSeekerEl.style.width)).toBe(0);
 })
 
 test("Jump to cursor on click", () => {
