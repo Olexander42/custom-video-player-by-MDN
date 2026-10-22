@@ -31,9 +31,7 @@ export function mediaBackward() {
 export function mediaForward() {
   stopWind(rwdBtn, intervalRwd);
 
-  if (fwdBtn.classList.contains("active")) {
-    console.log("I'm here");
-    
+  if (fwdBtn.classList.contains("active")) {    
     stopWind(fwdBtn, intervalFwd)
 
     /* If the button has been already active, stop fast-forwarding
